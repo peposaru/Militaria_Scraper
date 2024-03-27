@@ -1,0 +1,39 @@
+
+# don't worry about this file for now. This is for later when we learn about keeping apps and data online. This is mostly to work with your sql stuff
+
+# to make this work. Type docker-compose up in the terminal. This will start the database and the app.
+# type docker-compose down in the terminal to shut the running processes, called "pods", down.
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"  # Fine for now. Adjust the port to match your application's requirements.
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: products
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: poop
+      DATABASE_PORT: 5432
+
+  db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d # this ensures sql is executed in the db folder
+    environment:
+      POSTGRES_DB: stew_mil_db # change later when we learn env variables to keep this secret secure
+      POSTGRES_USER: postgres # change later when we learn env variables to keep this secret secure
+      POSTGRES_PASSWORD: poop # change later when we learn env variables to keep this secret secure
+      PGDATA: /var/lib/postgresql/data/pgdata  # change later when we learn env variables to keep this secret secure
+
+volumes:
+  pgdata: # this persists the data in the database. Not important for you now. More to come...
+
+# 

@@ -1,8 +1,9 @@
 # ALLSTEWARTSITEMS18MAR24
 
-import requests, re, os, gspread, time, psycopg2
-from bs4 import BeautifulSoup
-from datetime import date
+import os, sys, requests, re, time        # core python modules, don't need to be in the requirements.txt
+from datetime import date     # core python packages from the datetime module. not needed in requirements.txt
+import psycopg2                     # postgresql database package, imported via psycopg2-binary in requirements.txt
+from bs4 import BeautifulSoup         # scraping tool package, from requirements.txt
 
 # FIRST PHASE: GET THE WEBSCRAPER READY
     # A : GET ALL FOR SALE ITEMS
@@ -14,16 +15,17 @@ from datetime import date
             #-> NOT RELEVANT UNTIL ALL FOR SALE ITEMS PROCESSED
     # B : CHECK ARCHIVES FOR ITEMS SOLD
 # SECOND PHASE : POSTGRESQL
-
-# A
 class StewartsNewItemsScraper:
-    def __init__(self,spreadSheetManager):
-         self.spreadSheetManager = spreadSheetManager
+    def __init__(self,databaseManager):
+         self.databaseManager = databaseManager
 
     def productIDGenerator(self):
-        lastProductID = self.spreadSheetManager.sqlFetch('''SELECT MAX(product_id) FROM products''') 
-        productID = int(lastProductID[0][0]) + 1
-        print (f'ASSIGNING ID'.ljust(100,'.')+ F'{productID}')
+        lastProductID = self.databaseManager.sqlFetch('''SELECT MAX(product_id) FROM products''')
+        if lastProductID[0][0] is not None:
+            productID = int(lastProductID[0][0]) + 1
+        else:
+            productID = 1  # Start from 1 if the table is empty
+        print(f'ASSIGNING ID'.ljust(100, '.') + f'{productID}')
         return productID
 
     def readProductPage(self,url):
@@ -77,19 +79,33 @@ class StewartsNewItemsScraper:
 
 # SECOND PHASE : GET THE SQL PORTION READY
 class PostgreSQLProcessor:
-    def __init__(self,hostName, dataBase,userName,pwd,portId):
+    # set max retry attempts to connect to 5, with a 3 second delay, or wait time to allow the computer to connect
+    def __init__(self,hostName, dataBase,userName,pwd,portId, max_retries=5, delay=3):
         self.hostName = hostName
         self.dataBase = dataBase
         self.userName = userName
         self.pwd      = pwd
         self.portId   = portId
-        self.conn     = psycopg2.connect(
+        for attempt in range(max_retries):
+            # try/except block to catch connection issues and retry the connection if there is one, logging the error
+            # this is an asynchronous operation, so we need to wait for the connection to be established before moving forward
+
+            try: 
+                self.conn     = psycopg2.connect(
                         host = hostName,
                         dbname = dataBase,
                         user = userName,
                         password = pwd,
                         port = portId)
-        self.cur      = self.conn.cursor()
+                self.cur      = self.conn.cursor()
+                break
+            except psycopg2.OperationalError as exception:
+                if attempt < max_retries - 1:  # Avoid sleeping on the last attempt, just go for it
+                    print(f"Connection attempt {attempt + 1} failed, retrying in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    print('connection failed. Error is below...')
+                    raise exception  # Reraise the last exception
 
 
     def sqlExecute(self,query):
@@ -110,8 +126,8 @@ class PostgreSQLProcessor:
 
 def main():
 
-    hostName = 'localhost'
-    dataBase = 'Militaria Products'
+    hostName = 'db'
+    dataBase = 'stew_mil_db'
     userName = 'postgres'
     pwd      = 'poop'
     portId   = 5432

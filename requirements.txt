@@ -1,4 +1,3 @@
-BeautifulSoup
-psycopg2
 requests
-re
+psycopg2-binary
+beautifulsoup4
