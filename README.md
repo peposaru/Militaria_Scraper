@@ -13,7 +13,7 @@ Before you begin, ensure you have met the following requirements:
 
 To run the application, follow these steps:
 
-1. **Build and start the containers:**
+**Build and start the containers:**
 
    This command will build the Docker images and start the containers as defined in your `docker-compose.yml` file.
 
@@ -29,23 +29,6 @@ To run the application, follow these steps:
     docker-compose up --build new
     docker-compose up --build archive
     ```
-
-   Add a `-d` flag to run the containers in the background:
-
-    ```bash
-    docker-compose up --build -d
-    ```
-
-3. **Viewing Logs:**
-
-   You should see your scraper running in the terminal with your print statements.
-   If your application is running in the background, you can view the logs using:
-
-    ```bash
-    docker-compose logs -f
-    ```
-
-   The `-f` flag will follow the log output.
 
 ## Viewing the Database
 
