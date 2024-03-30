@@ -1,0 +1,47 @@
+{
+    "stew_mil": {
+        "base_url": "https://stewartsmilitaryantiques.com",
+        "archive_url": "/search_archives.php?row={currentRow}&search_for=",
+        "new_item_url": "/new-item-extention",
+        "search_url": "/search_products.php?page={page}&search_for=wwii+german",
+        "product_selectors": {
+            "product_container": "div.product-item",
+            "title": "h3.product-title",
+            "price": "span.product-price",
+            "url": "a@href"
+        }
+    },
+
+    "bevo": {
+        "base_url": "<base_url_from_BEVO_SCRAPE.py>",
+        "search_url": "<search_url_from_BEVO_SCRAPE.py>",
+        "product_selectors": {
+            "product_container": "<product_container_selector_from_BEVO_SCRAPE.py>",
+            "title": "<title_selector_from_BEVO_SCRAPE.py>",
+            "price": "<price_selector_from_BEVO_SCRAPE.py>",
+            "url": "<url_selector_from_BEVO_SCRAPE.py>"
+        }
+    },
+
+    "ruptured_duck": {
+        "base_url": "https://www.therupturedduck.com",
+        "archive_url": "/collections/all-items?page={page}",
+        "new_item_url": "/collections/recently-added-items?page={page}", 
+        "product_selectors": {
+            "product_container": "div.product-item",
+            "title": "h1.product-single__title",
+            "price": "span.product-price"
+        }
+    },
+    "fmj44": {
+        "base_url": "https://www.fjm44.com",
+        "archive_url": "/en/products?page={page}",
+        "new_item_url": "/en/products?page={page}",
+        "product_selectors": {
+            "product_container": "div.product-item",
+            "title": "h1.product-single__title",
+            "price": "span.product-price",
+            "url": "a@href"
+        }
+    }
+}

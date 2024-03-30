@@ -1,4 +1,4 @@
--- this is for creating a table if there is none. There will likely be none until you get a persistent database going another time.
+-- This script is for creating the products table if it does not already exist.
 CREATE TABLE IF NOT EXISTS products (
     url VARCHAR(255),
     product_id SERIAL PRIMARY KEY,

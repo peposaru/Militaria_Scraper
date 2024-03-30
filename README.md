@@ -18,7 +18,16 @@ To run the application, follow these steps:
    This command will build the Docker images and start the containers as defined in your `docker-compose.yml` file.
 
     ```bash
-    docker-compose up --build
+    docker-compose up --build <scraper name>
+    ```
+    an example of this would be the below command, running your original main stew_mil_scraper:
+    ```bash
+    docker-compose up --build basic
+    ```
+    or you could search new items or the archive
+    ```bash
+    docker-compose up --build new
+    docker-compose up --build archive
     ```
 
    Add a `-d` flag to run the containers in the background:

@@ -1,31 +1,17 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+# This Docker Compose file is used to define and manage a multi-container application using Docker. Docker allows you to automate the deployment, scaling, and management of apps like yours using containers such as the one defined here. A container is a lightweight, standalone, executable package of software that includes everything needed to run an application, including the code, runtime, libraries, and dependencies.This container will be running python 3.9 within it, allowing you to run docker-compose up to start the application instead of python directly, allowing you to run it anywhere, on any computer or server.
 
-# Set the working directory in the Docker image
+
+# use this version of python to run the project
+FROM python:3.9
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements.txt file into the image to install Python dependencies
-COPY requirements.txt .
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-
-# Install system dependencies required for psycopg2 compilation
-RUN apt-get update && apt-get install -y gcc libpq-dev python3-dev
-
-# Install any dependencies
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your application's code
-COPY . .
-
-# Command to run the application
-CMD ["python", "./main.py"]
-
-
-# the running python from the dockerfile instead of locally via the python terminal will execute the above commands. It will install python, all the dependencies in requirements.txt, and run the main.py file. This allows you to run the project from here on any machine, or more importantly, on a server online if you ever wanted to deploy it in the future.
-
-# to build the dockerfile, you can run the following command in the terminal:
-# docker build -t app .
-# then to run the dockerfile, you can run the following command in the terminal:
-# docker run app
-
-# building should take a while the first time
+# Run the command to start your application
+CMD ["/wait-for-it.sh", "db:5432", "--", "python", "./main.py"]
