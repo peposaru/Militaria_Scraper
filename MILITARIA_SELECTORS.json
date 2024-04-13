@@ -1,0 +1,64 @@
+[
+    {
+        "source"               : "RUPTURED_DUCK",
+        "base_url"             : "https://www.therupturedduck.com/collections/recently-added-items?page={page}",
+        "page_increment"       : "1",
+        "currency"             : "dollars",
+        "products_url_list"    : "soup.find_all('div',class_= 'grid__item small--one-half medium-up--one-fifth')",
+        "product_url_element"  : "'https://www.therupturedduck.com' + product.find('a')['href']",
+        "title_element"        : "productSoup.find('h1', class_='product-single__title').text",
+        "desc_element"         : "productSoup.find('div',class_='rte product-single__description').text",
+        "price_element"        : "productSoup.find('span', class_='product-single__price').text",
+        "available_element"    : "True if productSoup.find('span', class_='product-single__price') else False"
+    },
+
+
+    {
+        "source"               : "FJM44",
+        "base_url"             : "https://fjm44.com/shop/page/{page}/",
+        "page_increment"       : "1",
+        "currency"             : "euros",
+        "products_url_list"    : "soup.find_all('li',class_= 'product')",
+        "product_url_element"  : "product.find('a')['href']",
+        "title_element"        : "productSoup.find('h1', class_='product_title entry-title').text",
+        "desc_element"         : "productSoup.find('div',class_='woocommerce-product-details__short-description').text",
+        "price_element"        : "productSoup.find('span', class_='woocommerce-Price-amount amount').text",
+        "available_element"    : "False if 'Out of stock' in productSoup.find('div', class_='summary entry-summary').text else True" 
+    },
+    {
+        "source"               : "STEWARTS_MILITARIA",
+        "base_url"             : "https://stewartsmilitaryantiques.com/search_products.php?row={page}&search_for=",
+        "page_increment"       : "50",
+        "currency"             : "dollars",
+        "products_url_list"    : "soup.find_all('div', class_='p-2 my-flex-item')",
+        "product_url_element"  : "product.find('a')['href']",
+        "title_element"        : "productSoup.find('h3', class_='d-lg-none').text",
+        "desc_element"         : "productSoup.find('p').text",
+        "price_element"        : "(productSoup.find('div', id='cart_readout').find('b')).text",
+        "available_element"    : "True"
+    },
+    {
+        "source"               : "STEWARTS_MILITARIA",
+        "base_url"             : "https://stewartsmilitaryantiques.com/search_archives.php?row={page}&search_for=",
+        "page_increment"       : "50",
+        "currency"             : "dollars",
+        "products_url_list"    : "soup.find_all('div', class_='p-2 my-flex-item')",
+        "product_url_element"  : "product.find('a')['href']",
+        "title_element"        : "productSoup.find('div', class_='section-title').text.split('This item is listed')[0].strip()",
+        "desc_element"         : "productSoup.find('p').text",
+        "price_element"        : "productSoup.find('h3', class_='d-lg-none').find('small').text.split('Sold for: $')[1]",
+        "available_element"    : "False"
+    }, 
+    {
+        "source"               : "BEVO_MILITARIA",
+        "base_url"             : "https://bevo-militaria.com/shop/page/{page}/",
+        "page_increment"       : "1",
+        "currency"             : "euros",
+        "products_url_list"    : "soup.find_all('li',class_= 'product')",
+        "product_url_element"  : "product.find('a', class_='woocommerce-LoopProduct-link-title').get('href')",
+        "title_element"        : "productSoup.find('h1', class_='product_title entry-title').text",
+        "desc_element"         : "productSoup.find('div',class_='woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab').text",
+        "price_element"        : "productSoup.find('span',class_='woocommerce-Price-amount amount').text",
+        "available_element"    : "True if productSoup.find('p', class_='stock in-stock') else False"
+    }
+]
