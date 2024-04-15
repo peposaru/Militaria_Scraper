@@ -1,4 +1,4 @@
-BeautifulSoup
+beautifulsoup4
 psycopg2
+CurrencyConverter
 requests
-re

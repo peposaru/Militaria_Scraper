@@ -113,12 +113,13 @@ class PostgreSQLProcessor:
 
 def main():
     while True:
-        # Should probably put this into a JSON as well
-        hostName = 'localhost'
-        dataBase = 'Militaria_Products_DB'
-        userName = 'postgres'
-        pwd      = 'poop'
-        portId   = 5432
+        # see the docker-compose.yml for where i'm storing the info
+        # soon, we need to create a .env file to store this info securely. Fine for now
+        hostName = os.getenv('DATABASE_HOST', 'localhost')
+        dataBase = os.getenv('DATABASE_NAME', 'Militaria_Products_DB') # this format means "grab the database_name, and if it doesn't exist, make it Militaria_Products_DB"
+        userName = os.getenv('DATABASE_USER', 'postgres')
+        pwd      = os.getenv('DATABASE_PASSWORD', 'poop')
+        portId   = os.getenv('DATABASE_PORT', 5432)
 
         # Handling different data input / output
         dataManager      = PostgreSQLProcessor(hostName, dataBase,userName,pwd,portId)
@@ -127,7 +128,7 @@ def main():
         runCycle          = 0
         productsProcessed = 0
 
-        while True:
+        while True: # this will make the scraper keep running until you manually stop it. With docker, you can use "docker-compose stop scraper" to stop it
 
             # Opening the JSON file containing website specific selectors
             with open('MILITARIA_SELECTORS.json','r') as userFile:
