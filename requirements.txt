@@ -2,3 +2,4 @@ BeautifulSoup
 psycopg2
 requests
 re
+streamlit
