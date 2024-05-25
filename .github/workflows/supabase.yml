@@ -1,0 +1,28 @@
+name: Deploy to Supabase
+
+on:
+  push:
+    branches:
+      - main  # Ensures it only runs on push events to the main branch
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Supabase CLI
+      run: |
+        curl -L https://github.com/supabase/cli/releases/latest/download/supabase-linux -o supabase
+        chmod +x supabase
+        sudo mv supabase /usr/local/bin/
+
+    - name: Deploy to Supabase
+      env:
+        # these atrributes are stored in the github repository secrets in the settings tab, and are read from there
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      run: |
+        supabase login --access-token $SUPABASE_KEY
+        supabase link --project-ref <your-project-ref> --project-url $SUPABASE_URL
+        supabase db push
