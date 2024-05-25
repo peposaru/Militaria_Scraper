@@ -12,7 +12,8 @@ That data is then fed into a postgresql database using psycopg / sql.
 Motivation:
 This is a topic I have had a huge interest in for most of my life. Both my grandparents had fought in one war or another and influenced me to have an interest in history. I started collecting antiques when I was young and eventually it became my full time job. 
 
-Limitations and challenges
+Limitations and challenges:
+Most sites do not show information on sold items. Dates, prices and sometimes even entire products are just removed from the public end of their sites. Lot of this had to be extrapolated through finding clues in forums and my own personal experiences.
 
 Problem to solve:
 A big problem I ran into early on is the small business aspect of many of these stores. These shops are run like mom and pop shops which make it so their websites / products are not uniform. Some sites were so bad that each page and product had different html / css formats.
